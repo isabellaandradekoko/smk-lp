@@ -467,4 +467,24 @@
       }, { threshold: 0.3 }).observe(morph);
     }
   }
+  /* ---------- programa: título com a mesma altura do texto ao lado ---------- */
+  var sh = document.querySelector('.split-head');
+  if (sh) {
+    var st = sh.querySelector('.title'), sp = sh.querySelector('.prose');
+    var fitTitle = function () {
+      if (window.innerWidth <= 860) { st.style.removeProperty('--fit'); return; }
+      // sobe o tamanho do título até a altura dele alcançar a do texto
+      var best = 32, bestDiff = Infinity;
+      for (var F = 32; F <= 96; F += 1) {
+        st.style.setProperty('--fit', F + 'px');
+        var diff = st.offsetHeight - sp.offsetHeight;
+        if (Math.abs(diff) < bestDiff) { bestDiff = Math.abs(diff); best = F; }
+        if (diff >= 0) break;
+      }
+      st.style.setProperty('--fit', best + 'px');
+    };
+    var fitT = null;
+    (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(fitTitle);
+    window.addEventListener('resize', function () { clearTimeout(fitT); fitT = setTimeout(fitTitle, 120); });
+  }
 })();

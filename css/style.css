@@ -322,10 +322,12 @@ mark { background: none; color: var(--green); font-weight: 600; }
 .note { margin: 64px 0 0; font-size: 18px; max-width: 58ch; padding-left: 22px; border-left: 3px solid var(--purple); }
 
 /* ---------- programa: grade limpa ---------- */
-.split-head { display: grid; grid-template-columns: 1fr 1fr; gap: 28px clamp(30px, 6vw, 96px); margin-bottom: 88px; }
-.split-head > div { grid-column: 1 / -1; }
-.split-head .title { margin-bottom: 0; font-size: clamp(32px, 4.5vw, 66px); max-width: none; }
-.split-head > .prose { grid-column: 2; font-size: 17px; margin: 0; }
+.split-head { display: grid; grid-template-columns: auto 1fr; column-gap: clamp(40px, 6vw, 96px); align-items: start; margin-bottom: 88px; }
+.split-head > div { display: contents; }
+.split-head .eyebrow { grid-column: 1 / -1; grid-row: 1; justify-self: start; }
+/* título: 3 linhas fixas; o JS ajusta o tamanho pra altura bater com a do texto */
+.split-head .title { grid-column: 1; grid-row: 2; margin: 0; max-width: none; white-space: nowrap; line-height: 1.02; font-size: var(--fit, clamp(32px, 4vw, 56px)); }
+.split-head > .prose { grid-column: 2; grid-row: 2; font-size: 17px; line-height: 1.6; margin: 0; max-width: 46ch; }
 .mods { display: grid; grid-template-columns: repeat(3, 1fr); gap: 56px clamp(28px, 4vw, 64px); }
 .mod { position: relative; padding-top: 22px; }
 .mod::before { /* linha pontilhada que acende no hover */
@@ -542,7 +544,8 @@ mark { background: none; color: var(--green); font-weight: 600; }
   .koko { gap: 18px; padding: 0; }
   .crt__icon { width: 150px; }
   .crt__status { font-size: 11px; }
-  .split-head > .prose { grid-column: 1; }
+  .split-head .title { white-space: normal; font-size: clamp(30px, 8vw, 44px); }
+  .split-head > .prose { grid-column: 1; grid-row: 3; margin-top: 24px; }
   .pains, .cat, .split-head, .teacher, .faq, .plans, .fies, .fies__foot, .chats, .case, .close__cols, .shift__inner { grid-template-columns: 1fr; }
   .panel { justify-self: stretch; max-width: none; }
   .vs__head { display: none; }
