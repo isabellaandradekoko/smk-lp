@@ -249,26 +249,6 @@
     setProg();
   }
 
-  /* ---------- cursor de bolinha ---------- */
-  var cur = document.querySelector('.cursor');
-  if (cur && fine && !reduce) {
-    var cx = 0, cy = 0, px = 0, py = 0, raf = null;
-    var follow = function () {
-      px += (cx - px) * 0.25; py += (cy - py) * 0.25;
-      cur.style.transform = 'translate(' + px + 'px,' + py + 'px)';
-      raf = (Math.abs(cx - px) + Math.abs(cy - py) > 0.3) ? requestAnimationFrame(follow) : null;
-    };
-    document.addEventListener('pointermove', function (e) {
-      cx = e.clientX; cy = e.clientY;
-      cur.classList.add('is-on');
-      if (!raf) raf = requestAnimationFrame(follow);
-    });
-    document.addEventListener('pointerleave', function () { cur.classList.remove('is-on'); });
-    document.addEventListener('pointerover', function (e) {
-      cur.classList.toggle('is-big', !!e.target.closest('a, button, summary, [data-tilt], .vs__row'));
-    });
-  }
-
   if (!reduce && fine) {
     /* ---------- tilt 3D ---------- */
     document.querySelectorAll('[data-tilt]').forEach(function (el) {
@@ -280,39 +260,6 @@
       });
       el.addEventListener('pointerleave', function () {
         el.style.setProperty('--ry', '0deg'); el.style.setProperty('--rx', '0deg');
-      });
-    });
-
-    /* ---------- spotlight de bolinhas ---------- */
-    document.querySelectorAll('[data-spot]').forEach(function (el) {
-      el.addEventListener('pointermove', function (e) {
-        var r = el.getBoundingClientRect();
-        el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
-        el.style.setProperty('--my', (e.clientY - r.top) + 'px');
-      });
-    });
-
-    /* ---------- balão "digitando" de novo ---------- */
-    document.querySelectorAll('.pain').forEach(function (card) {
-      var b = card.querySelector('.bubble');
-      var full = b.textContent, timer = null;
-      b.style.minHeight = b.offsetHeight + 'px';
-      card.addEventListener('mouseenter', function () {
-        if (timer) return;
-        b.style.minHeight = b.offsetHeight + 'px';
-        b.style.minWidth = b.offsetWidth + 'px';
-        var i = 0;
-        b.classList.add('is-typing');
-        b.textContent = '';
-        timer = setInterval(function () {
-          i += 2;
-          b.textContent = full.slice(0, i);
-          if (i >= full.length) {
-            clearInterval(timer); timer = null;
-            b.textContent = full;
-            setTimeout(function () { b.classList.remove('is-typing'); }, 900);
-          }
-        }, 22);
       });
     });
 
@@ -399,6 +346,125 @@
           clearInterval(sceneTimer); sceneTimer = null;
         }
       }, { threshold: 0.3 }).observe(panel);
+    }
+  }
+  /* ---------- menu: pílula verde (hover + seção ativa) ---------- */
+  var nav = document.querySelector('.topbar__nav');
+  if (nav) {
+    var pill = nav.querySelector('.topbar__pill');
+    var links = Array.prototype.slice.call(nav.querySelectorAll('a'));
+    var active = null, hovering = null;
+    var place = function (a) {
+      links.forEach(function (l) { l.classList.toggle('is-pill', l === a); });
+      if (!a) { pill.style.opacity = 0; return; }
+      pill.style.opacity = 1;
+      pill.style.width = a.offsetWidth + 'px';
+      pill.style.transform = 'translateX(' + a.offsetLeft + 'px)';
+    };
+    links.forEach(function (a) {
+      a.addEventListener('mouseenter', function () { hovering = a; place(a); });
+    });
+    nav.addEventListener('mouseleave', function () { hovering = null; place(active); });
+    var spy = function () {
+      var mid = window.innerHeight * 0.4, found = null;
+      links.forEach(function (a) {
+        var s = document.querySelector(a.getAttribute('href'));
+        if (!s) return;
+        var r = s.getBoundingClientRect();
+        if (r.top <= mid && r.bottom > mid) found = a;
+      });
+      if (found !== active) { active = found; if (!hovering) place(active); }
+    };
+    window.addEventListener('scroll', spy, { passive: true });
+    window.addEventListener('resize', function () { place(hovering || active); });
+    spy();
+  }
+
+  /* ---------- Hector: fotos alternando ---------- */
+  var slides = document.querySelector('.slides');
+  if (slides && !reduce) {
+    var imgs = slides.querySelectorAll('img'), sdots = slides.querySelectorAll('.slides__dots i'), si = 0;
+    setInterval(function () {
+      imgs[si].classList.remove('is-on'); sdots[si].classList.remove('is-on');
+      si = (si + 1) % imgs.length;
+      imgs[si].classList.add('is-on'); sdots[si].classList.add('is-on');
+    }, 4500);
+  }
+
+  /* ---------- morph de bolinhas: celular -> monitor ---------- */
+  var morph = document.querySelector('.morph');
+  if (morph) {
+    var msvg = morph.querySelector('.morph__svg');
+    var NSM = 'http://www.w3.org/2000/svg', GS = 14, CELLS = 24;
+    msvg.setAttribute('viewBox', '0 0 ' + GS * CELLS + ' ' + GS * CELLS);
+    var INK = '#1B1B1B', PUR = '#B04BE8', GRN = '#9EE04A', GRY = '#C9C4B4';
+    var rect = function (x0, y0, x1, y1, color, out) {
+      for (var y = y0; y <= y1; y++) for (var x = x0; x <= x1; x++)
+        if (y === y0 || y === y1 || x === x0 || x === x1) out.push([x, y, color]);
+    };
+    var fill = function (x0, y0, x1, y1, color, out) {
+      for (var y = y0; y <= y1; y++) for (var x = x0; x <= x1; x++) out.push([x, y, color]);
+    };
+    // estado A: celular com post (coração) e legenda
+    var A = [];
+    rect(7, 1, 16, 22, INK, A);
+    fill(10, 3, 13, 3, INK, A);
+    fill(11, 20, 12, 20, INK, A);
+    ['.XX.XX.', 'XXXXXXX', 'XXXXXXX', '.XXXXX.', '..XXX..', '...X...'].forEach(function (row, dy) {
+      row.split('').forEach(function (ch, dx) { if (ch === 'X') A.push([8 + dx, 7 + dy, PUR]); });
+    });
+    fill(9, 15, 14, 15, GRY, A);
+    fill(9, 17, 12, 17, GRY, A);
+    // estado B: monitor com gráfico subindo
+    var B = [];
+    rect(1, 2, 22, 16, INK, B);
+    fill(10, 17, 13, 18, INK, B);
+    fill(7, 19, 16, 19, INK, B);
+    [[4, 2], [7, 3], [10, 5], [13, 7], [16, 10]].forEach(function (b) {
+      fill(b[0], 15 - b[1], b[0] + 1, 14, GRN, B);
+    });
+    fill(19, 4, 20, 5, PUR, B);
+    var order = function (p, q) { return p[1] - q[1] || p[0] - q[0]; };
+    A.sort(order); B.sort(order);
+    var N = Math.max(A.length, B.length);
+    var pad = function (L) { var out = L.slice(); var k = 0; while (out.length < N) { var src = L[(k * 7) % L.length]; out.push([src[0], src[1], src[2], true]); k++; } return out; };
+    A = pad(A); B = pad(B);
+    var dotsM = [];
+    for (var i = 0; i < N; i++) {
+      var c = document.createElementNS(NSM, 'circle');
+      c.setAttribute('r', GS * 0.38);
+      c.style.setProperty('--dl', ((i * 37) % 23) * 0.018 + 's');
+      msvg.appendChild(c); dotsM.push(c);
+    }
+    // brilhinhos em volta
+    [[0, 0, GRN, '0s'], [22, 21, PUR, '1.2s']].forEach(function (s) {
+      [[1, 0], [0, 1], [1, 1], [2, 1], [1, 2]].forEach(function (o) {
+        var c = document.createElementNS(NSM, 'circle');
+        c.setAttribute('cx', (s[0] + o[0]) * GS - GS); c.setAttribute('cy', (s[1] + o[1]) * GS - GS);
+        c.setAttribute('r', GS * 0.3); c.setAttribute('fill', s[2]); c.setAttribute('class', 'sp');
+        c.style.setProperty('--tw', s[3]);
+        msvg.appendChild(c);
+      });
+    });
+    var show = function (L, isB) {
+      morph.classList.toggle('is-b', isB);
+      L.forEach(function (p, i) {
+        var c = dotsM[i];
+        c.style.transform = 'translate(' + (p[0] * GS + GS / 2) + 'px,' + (p[1] * GS + GS / 2) + 'px)';
+        c.style.fill = p[2];
+        c.style.opacity = p[3] ? 0 : 1;
+      });
+    };
+    show(A, false);
+    if (!reduce) {
+      var mstate = false, mtimer = null;
+      new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && !mtimer) {
+          mtimer = setInterval(function () { mstate = !mstate; show(mstate ? B : A, mstate); }, 3200);
+        } else if (!en[0].isIntersecting && mtimer) {
+          clearInterval(mtimer); mtimer = null;
+        }
+      }, { threshold: 0.3 }).observe(morph);
     }
   }
 })();

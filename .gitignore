@@ -5,3 +5,8 @@
 Depoimentos/
 Visual/
 *.pdf
+
+# Fotos originais em alta (usar versões de assets/img)
+/*.jpg
+/*.JPG
+/*.jpeg
