@@ -487,4 +487,77 @@
     (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(fitTitle);
     window.addEventListener('resize', function () { clearTimeout(fitT); fitT = setTimeout(fitTitle, 120); });
   }
+  /* ---------- fecho: kokinha atravessando a linha ---------- */
+  var cross = document.querySelector('.cross');
+  var heroIcon = document.querySelector('.crt__icon svg');
+  if (cross && heroIcon) {
+    var csvg = cross.querySelector('.cross__svg');
+    var NSC = 'http://www.w3.org/2000/svg', CG = 16, COLS = 27, ROWS = 17, LINE = 13;
+    csvg.setAttribute('viewBox', '0 0 ' + COLS * CG + ' ' + ROWS * CG);
+    var mk = function (x, y, r, cls) {
+      var c = document.createElementNS(NSC, 'circle');
+      c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', r); c.setAttribute('class', cls);
+      csvg.appendChild(c); return c;
+    };
+    // campo de bolinhas: cinza à esquerda, verde à direita, linha pontilhada no meio
+    for (var ry = 0; ry < ROWS; ry++) for (var rx = 0; rx < COLS; rx++) {
+      var cx0 = rx * CG + CG / 2, cy0 = ry * CG + CG / 2;
+      if (rx === LINE) { if (ry % 2 === 0) mk(cx0, cy0, 2.6, 'line'); }
+      else mk(cx0, cy0, 2, rx < LINE ? 'f-old' : 'f-new');
+    }
+    var lineX = LINE * CG + CG / 2;
+    // kokinha: mesma grade do ícone do hero, em escala menor
+    var src = Array.prototype.slice.call(heroIcon.querySelectorAll('circle'));
+    var kdots = [], KW = 10, KTOP = 2;
+    src.forEach(function (s) {
+      var col = Math.round((+s.getAttribute('cx') - 35) / 69.5), row = Math.round((+s.getAttribute('cy') - 35) / 69.5);
+      var d = mk(0, KTOP * CG + row * CG + CG / 2, CG * 0.42, 'k old');
+      if (s.classList.contains('eye')) d.classList.add('eye');
+      kdots.push({ el: d, col: col });
+    });
+    var startCol = 0.5, endCol = LINE + 2.5;
+    var placeK = function (pos) { // pos = coluna da borda esquerda da kokinha
+      kdots.forEach(function (k) {
+        var x = (pos + k.col) * CG + CG / 2;
+        k.el.setAttribute('cx', x.toFixed(1));
+        var isNew = x > lineX;
+        if (isNew !== k.el.classList.contains('new')) { k.el.classList.toggle('new', isNew); k.el.classList.toggle('old', !isNew); }
+      });
+    };
+    var blinkK = function () {
+      kdots.forEach(function (k) {
+        if (k.el.classList.contains('eye') && k.el.animate)
+          k.el.animate([{ transform: 'scaleY(1)' }, { transform: 'scaleY(.1)' }, { transform: 'scaleY(1)' }], { duration: 220 });
+      });
+    };
+    if (reduce) { placeK(endCol); }
+    else {
+      placeK(startCol);
+      var running = false, raf = null, t0 = 0, timers = [];
+      var ease = function (t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
+      var cycle = function () {
+        placeK(startCol);
+        timers.push(setTimeout(function () {
+          t0 = performance.now();
+          var walk = function (now) {
+            var t = Math.min((now - t0) / 2600, 1);
+            placeK(startCol + (endCol - startCol) * ease(t));
+            if (t < 1) raf = requestAnimationFrame(walk);
+            else {
+              timers.push(setTimeout(blinkK, 350));
+              timers.push(setTimeout(blinkK, 1500));
+              timers.push(setTimeout(function () { if (running) cycle(); }, 3200));
+            }
+          };
+          raf = requestAnimationFrame(walk);
+        }, 900));
+      };
+      new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting && !running) { running = true; cycle(); }
+        else if (!en[0].isIntersecting && running) {
+          running = false; cancelAnimationFrame(raf); timers.forEach(clearTimeout); timers = []; placeK(startCol);
+        }
+      }, { threshold: 0.3 }).observe(cross);
+    }
+  }
 })();

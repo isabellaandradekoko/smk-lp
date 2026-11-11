@@ -489,13 +489,22 @@ mark { background: none; color: var(--green); font-weight: 600; }
 
 /* ---------- fecho ---------- */
 .close { background: var(--ink); color: var(--cream); padding: var(--sec) 0; position: relative; overflow: hidden; }
-.close::before {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(circle, rgba(180, 243, 94, .14) 2px, transparent 2.5px) 0 0 / 24px 24px;
-  -webkit-mask-image: linear-gradient(90deg, transparent 45%, #000);
-          mask-image: linear-gradient(90deg, transparent 45%, #000);
-}
 .close__inner { position: relative; }
+.close__top { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(32px, 5vw, 80px); align-items: center; }
+.close__top .title { margin-bottom: .7em; }
+
+/* kokinha atravessando a linha */
+.cross { margin: 0; justify-self: end; width: 100%; max-width: 440px; }
+.cross__svg { width: 100%; height: auto; display: block; overflow: visible; }
+.cross__svg .f-old { fill: rgba(244, 241, 232, .09); }
+.cross__svg .f-new { fill: rgba(180, 243, 94, .22); }
+.cross__svg .line { fill: var(--green); }
+.cross__svg .k { transition: fill .25s; transform-box: fill-box; transform-origin: center; }
+.cross__svg .k.old { fill: #6f6f69; }
+.cross__svg .k.new { fill: var(--green); filter: drop-shadow(0 0 5px rgba(180, 243, 94, .7)); }
+.cross__cap { display: grid; grid-template-columns: 1fr 1fr; margin-top: 14px; font-family: var(--f-display); font-size: 12px; text-transform: uppercase; text-align: center; }
+.cross__cap span:first-child { color: var(--muted); }
+.cross__cap span:last-child { color: var(--green); }
 .close__cols { display: grid; grid-template-columns: 1fr 1fr; margin: 10px 0 44px; border-top: 1px solid var(--ink-3); max-width: 1000px; }
 .close__cols p { margin: 0; padding: 28px 32px 0 0; font-size: 17px; color: #BDBDB6; }
 .close__cols p + p { padding: 28px 0 0 32px; border-left: 1px dashed var(--green); color: var(--cream); }
@@ -554,6 +563,8 @@ mark { background: none; color: var(--green); font-weight: 600; }
   .split-head > .prose { grid-column: 1; grid-row: 3; margin-top: 24px; }
   .pains, .cat, .split-head, .teacher, .faq, .plans, .fies, .fies__foot, .chats, .case, .close__cols, .shift__inner { grid-template-columns: 1fr; }
   .panel { justify-self: stretch; max-width: none; }
+  .close__top { grid-template-columns: 1fr; }
+  .cross { justify-self: center; max-width: 320px; margin-bottom: 36px; }
   .vs__head { display: none; }
   .vs__row { grid-template-columns: 1fr; }
   .faq__head { position: static; }
