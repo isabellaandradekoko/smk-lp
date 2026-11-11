@@ -1,0 +1,7 @@
+.DS_Store
+
+# Material bruto: fica fora do repositório
+# (os prints de depoimento mostram telefones de alunos)
+Depoimentos/
+Visual/
+*.pdf
