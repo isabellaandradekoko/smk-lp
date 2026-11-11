@@ -47,6 +47,8 @@ O resto da página é igual nas duas.
 
 ## Pendências
 
+- [ ] Remover `<meta name="robots" content="noindex, nofollow">` do `index.html` antes de publicar no domínio final
+
 - [ ] Links de checkout, WhatsApp e termo do FIES (`js/config.js`)
 - [ ] Pixel / GTM / tracking
 - [ ] Selo oficial de extensão ("SELO PADRÃO - EXTENSÃO.png", da Usina Educação) no lugar do selo provisório da seção de certificação
