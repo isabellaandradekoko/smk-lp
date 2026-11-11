@@ -127,10 +127,44 @@
       bar.animate([{ width: '0%' }, { width: '100%' }], { duration: total, easing: 'steps(25, end)', fill: 'forwards' });
       setTimeout(function () {
         label.textContent = 'tech social: online';
-        dots.forEach(function (c) { c.style.opacity = 1; });
+        dots.forEach(function (c) {
+          c.style.opacity = 1;
+          c.getAnimations().forEach(function (a) { a.cancel(); });
+        });
         blinkLoop();
+        repel(dots);
       }, total + 100);
     }
+  }
+
+  /* bolinhas do ícone desviam do cursor */
+  function repel(dots) {
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    var wrap = icon.parentElement;
+    wrap.classList.add('is-live');
+    var pos = dots.map(function (c) { return [+c.getAttribute('cx'), +c.getAttribute('cy')]; });
+    var pending = null;
+    hero.addEventListener('pointermove', function (e) {
+      pending = e;
+      requestAnimationFrame(function () {
+        if (!pending) return;
+        var m = icon.getScreenCTM();
+        if (!m) return;
+        var p = new DOMPoint(pending.clientX, pending.clientY).matrixTransform(m.inverse());
+        pending = null;
+        dots.forEach(function (c, i) {
+          var dx = pos[i][0] - p.x, dy = pos[i][1] - p.y, d = Math.sqrt(dx * dx + dy * dy);
+          var R = 220;
+          if (d < R && d > 0) {
+            var f = (1 - d / R) * 38;
+            c.style.transform = 'translate(' + (dx / d * f).toFixed(1) + 'px,' + (dy / d * f).toFixed(1) + 'px)';
+          } else if (c.style.transform) {
+            c.style.transform = '';
+          }
+        });
+      });
+    });
+    hero.addEventListener('pointerleave', function () { dots.forEach(function (c) { c.style.transform = ''; }); });
   }
 
   function blinkLoop() {
@@ -200,5 +234,171 @@
 
     window.addEventListener('resize', size);
     size();
+  }
+
+  var fine = window.matchMedia('(pointer: fine)').matches;
+
+  /* ---------- barra de progresso de leitura ---------- */
+  var prog = document.querySelector('.progress i');
+  if (prog) {
+    var setProg = function () {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      prog.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+    };
+    window.addEventListener('scroll', setProg, { passive: true });
+    setProg();
+  }
+
+  /* ---------- cursor de bolinha ---------- */
+  var cur = document.querySelector('.cursor');
+  if (cur && fine && !reduce) {
+    var cx = 0, cy = 0, px = 0, py = 0, raf = null;
+    var follow = function () {
+      px += (cx - px) * 0.25; py += (cy - py) * 0.25;
+      cur.style.transform = 'translate(' + px + 'px,' + py + 'px)';
+      raf = (Math.abs(cx - px) + Math.abs(cy - py) > 0.3) ? requestAnimationFrame(follow) : null;
+    };
+    document.addEventListener('pointermove', function (e) {
+      cx = e.clientX; cy = e.clientY;
+      cur.classList.add('is-on');
+      if (!raf) raf = requestAnimationFrame(follow);
+    });
+    document.addEventListener('pointerleave', function () { cur.classList.remove('is-on'); });
+    document.addEventListener('pointerover', function (e) {
+      cur.classList.toggle('is-big', !!e.target.closest('a, button, summary, [data-tilt], .vs__row'));
+    });
+  }
+
+  if (!reduce && fine) {
+    /* ---------- tilt 3D ---------- */
+    document.querySelectorAll('[data-tilt]').forEach(function (el) {
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+        el.style.setProperty('--ry', (x * 8).toFixed(2) + 'deg');
+        el.style.setProperty('--rx', (-y * 8).toFixed(2) + 'deg');
+      });
+      el.addEventListener('pointerleave', function () {
+        el.style.setProperty('--ry', '0deg'); el.style.setProperty('--rx', '0deg');
+      });
+    });
+
+    /* ---------- spotlight de bolinhas ---------- */
+    document.querySelectorAll('[data-spot]').forEach(function (el) {
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+
+    /* ---------- balão "digitando" de novo ---------- */
+    document.querySelectorAll('.pain').forEach(function (card) {
+      var b = card.querySelector('.bubble');
+      var full = b.textContent, timer = null;
+      b.style.minHeight = b.offsetHeight + 'px';
+      card.addEventListener('mouseenter', function () {
+        if (timer) return;
+        b.style.minHeight = b.offsetHeight + 'px';
+        b.style.minWidth = b.offsetWidth + 'px';
+        var i = 0;
+        b.classList.add('is-typing');
+        b.textContent = '';
+        timer = setInterval(function () {
+          i += 2;
+          b.textContent = full.slice(0, i);
+          if (i >= full.length) {
+            clearInterval(timer); timer = null;
+            b.textContent = full;
+            setTimeout(function () { b.classList.remove('is-typing'); }, 900);
+          }
+        }, 22);
+      });
+    });
+
+    /* ---------- números: decodifica de novo no hover ---------- */
+    document.querySelectorAll('.stats li').forEach(function (li) {
+      var b = li.querySelector('b'), busy = false;
+      li.addEventListener('mouseenter', function () {
+        if (busy) return;
+        busy = true;
+        b.querySelectorAll('[data-count]').forEach(function (s) { s.textContent = s.dataset.count; });
+        var final = b.textContent;
+        b.dataset.final = final;
+        scramble(b);
+        setTimeout(function () { b.textContent = final; busy = false; }, 1100);
+      });
+    });
+  }
+
+  /* ---------- painel: posts × resultado (bolinhas) ---------- */
+  var panel = document.querySelector('.panel');
+  if (panel) {
+    var svg = panel.querySelector('.panel__chart');
+    var NS = 'http://www.w3.org/2000/svg';
+    var COLS = 13, ROWS = 11, G = 20, R = 7.2;
+    var BAR_A = [1, 2, 3, 4], BAR_B = [8, 9, 10, 11];
+    svg.setAttribute('viewBox', '0 0 ' + COLS * G + ' ' + ROWS * G);
+    var grid = [];
+    for (var r = 0; r < ROWS; r++) {
+      grid[r] = [];
+      for (var c = 0; c < COLS; c++) {
+        var ci = document.createElementNS(NS, 'circle');
+        ci.setAttribute('cx', c * G + G / 2); ci.setAttribute('cy', r * G + G / 2); ci.setAttribute('r', R);
+        svg.appendChild(ci); grid[r][c] = ci;
+      }
+    }
+    var mode = panel.querySelector('.panel__mode');
+    var cap = panel.querySelector('.panel__cap');
+    var l1 = panel.querySelector('.panel__l1');
+    var hA = 0, hB = 0, tA = 0, tB = 0, scene = 0, stepTimer = null, sceneTimer = null;
+
+    var paint = function () {
+      for (var r = 0; r < ROWS; r++) {
+        var level = ROWS - r; // 1 = linha de baixo
+        BAR_A.forEach(function (c) { grid[r][c].setAttribute('class', level <= hA ? 'on-a' : ''); });
+        BAR_B.forEach(function (c) { grid[r][c].setAttribute('class', level <= hB ? 'on-b' : ''); });
+      }
+    };
+    var step = function () {
+      var moved = false;
+      if (hA !== tA) { hA += hA < tA ? 1 : -1; moved = true; }
+      if (hB !== tB) { hB += hB < tB ? 1 : -1; moved = true; }
+      paint();
+      if (!moved) { clearInterval(stepTimer); stepTimer = null; }
+    };
+    var go = function () { if (!stepTimer) stepTimer = setInterval(step, 70); };
+    var setScene = function (s) {
+      scene = s;
+      panel.classList.toggle('is-data', s === 1);
+      if (s === 0) {
+        mode.textContent = '> modo: executor';
+        l1.textContent = 'posts';
+        cap.innerHTML = 'postar mais <i>≠</i> ganhar mais';
+        tA = ROWS; tB = 2;
+      } else {
+        mode.textContent = '> modo: tech social';
+        l1.textContent = 'dado lido';
+        cap.innerHTML = 'decidir por dado <i>=</i> cobrar mais';
+        tA = 6; tB = ROWS;
+      }
+      go();
+    };
+
+    if (reduce) {
+      hA = tA = ROWS; hB = tB = 2; setScene(0); hA = tA; hB = tB; paint();
+    } else {
+      paint();
+      new IntersectionObserver(function (en) {
+        if (en[0].isIntersecting) {
+          if (!sceneTimer) {
+            setScene(scene);
+            sceneTimer = setInterval(function () { setScene(scene ? 0 : 1); }, 3600);
+          }
+        } else if (sceneTimer) {
+          clearInterval(sceneTimer); sceneTimer = null;
+        }
+      }, { threshold: 0.3 }).observe(panel);
+    }
   }
 })();

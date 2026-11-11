@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=array@400,600,700&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=Inter:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 
   <!-- Variante do hero (teste A/B): ?v=b mostra a versão B (entrega). Padrão = A (mercado). -->
   <script>
@@ -36,6 +36,8 @@
 <body>
 
 <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<div class="progress" aria-hidden="true"><i></i></div>
+<div class="cursor" aria-hidden="true"></div>
 
 <!-- ============ HEADER ============ -->
 <header class="topbar" id="topo">
@@ -133,17 +135,17 @@
     <h2 id="batalha-title" class="title reveal">A batalha real não é onde você acha que é.</h2>
 
     <ol class="pains">
-      <li class="pain reveal">
+      <li class="pain reveal" data-tilt>
         <span class="pain__n">01</span>
         <p class="bubble">“Por que eu pago você, se a vendedora da loja viralizou um stories?”</p>
         <p>É isso que o cliente tem coragem de te perguntar, na cara dura. Pra ele, se rolou sem roteiro e sem verba, o trabalho que você faz não vale nada.</p>
       </li>
-      <li class="pain reveal">
+      <li class="pain reveal" data-tilt>
         <span class="pain__n">02</span>
         <p class="bubble bubble--ai">O roteiro que você mandou volta com nota do ChatGPT.</p>
         <p>Uma crítica escrita pela IA, dizendo que não vai viralizar. A máquina corrigindo o profissional, e o cliente achando isso o mais normal do mundo.</p>
       </li>
-      <li class="pain reveal">
+      <li class="pain reveal" data-tilt>
         <span class="pain__n">03</span>
         <p class="bubble">“Faz igual ao concorrente.”</p>
         <p>Só que o print que te mandaram já morreu há duas semanas. Você entra atrasado, sem saber por que aquilo funcionou, e ainda perde a briga por não ter um número pra defender.</p>
@@ -160,10 +162,20 @@
 <!-- ============ 04 O DESLOCAMENTO ============ -->
 <section class="sec sec--dark shift" aria-labelledby="shift-title">
   <div class="wrap shift__inner">
-    <p class="eyebrow eyebrow--green reveal">O deslocamento</p>
-    <h2 id="shift-title" class="title title--xl reveal">Quem ganha bem como social media parou de postar mais.</h2>
-    <p class="shift__punch reveal">Enquanto você briga por like, alguém tá decidindo o budget. E não é você, <span class="hl">ainda.</span></p>
-    <p class="prose prose--light reveal">O problema não é falta de talento. É que ninguém formalizou pra você como ler o dado, então você decide no escuro e chama isso de intuição. E o mercado deveria valorizar quem pensa, não só quem produz mais rápido. Isso devia ser óbvio. Não é.</p>
+    <div class="shift__copy">
+      <p class="eyebrow eyebrow--green reveal">O deslocamento</p>
+      <h2 id="shift-title" class="title title--xl reveal">Quem ganha bem como social media parou de postar mais.</h2>
+      <p class="shift__punch reveal">Enquanto você briga por like, alguém tá decidindo o budget. E não é você, <span class="hl">ainda.</span></p>
+      <p class="prose prose--light reveal">O problema não é falta de talento. É que ninguém formalizou pra você como ler o dado, então você decide no escuro e chama isso de intuição. E o mercado deveria valorizar quem pensa, não só quem produz mais rápido. Isso devia ser óbvio. Não é.</p>
+    </div>
+    <figure class="panel reveal" aria-label="Gráfico ilustrativo: postar mais não aumenta o resultado; decidir por dado aumenta.">
+      <div class="panel__bar"><span></span><span></span><span></span><b class="panel__mode">&gt; modo: executor</b></div>
+      <div class="panel__screen">
+        <svg class="panel__chart" aria-hidden="true"></svg>
+        <div class="panel__labels"><span class="panel__l1">posts</span><span class="panel__l2">resultado</span></div>
+      </div>
+      <figcaption class="panel__cap">postar mais <i>≠</i> ganhar mais</figcaption>
+    </figure>
   </div>
 </section>
 
@@ -192,36 +204,32 @@
         <figcaption>A pessoa do post. Trocável por qualquer um que cobre mais barato.</figcaption>
       </figure>
 
-      <div class="table" role="table" aria-label="Social media convencional versus Tech Social">
-        <div class="table__row table__head" role="row">
-          <span role="columnheader"></span>
-          <span role="columnheader">Social media convencional</span>
-          <span role="columnheader">Tech Social</span>
+      <div class="vs">
+        <div class="vs__head" aria-hidden="true"><span>Social media convencional</span><span>Tech Social</span></div>
+        <div class="vs__row reveal">
+          <p class="vs__tag">Decisão</p>
+          <p class="vs__old"><span class="sr">Social media convencional: </span>Achismo e o que tirou do sovaco hoje de manhã</p>
+          <p class="vs__new"><span class="sr">Tech Social: </span>Dado cruzado por IA, que nenhum humano dá conta de cruzar sozinho</p>
         </div>
-        <div class="table__row" role="row">
-          <span role="rowheader">Decisão</span>
-          <span role="cell">Achismo e o que tirou do sovaco hoje de manhã</span>
-          <span role="cell">Dado cruzado por IA, que nenhum humano dá conta de cruzar sozinho</span>
+        <div class="vs__row reveal">
+          <p class="vs__tag">Relatório</p>
+          <p class="vs__old"><span class="sr">Social media convencional: </span>Você olha por cima porque tem cliente demais e hora nenhuma</p>
+          <p class="vs__new"><span class="sr">Tech Social: </span>Lê os últimos mil comentários do perfil e do concorrente, sem cansar</p>
         </div>
-        <div class="table__row" role="row">
-          <span role="rowheader">Relatório</span>
-          <span role="cell">Você olha por cima porque tem cliente demais e hora nenhuma</span>
-          <span role="cell">Lê os últimos mil comentários do perfil e do concorrente, sem cansar</span>
+        <div class="vs__row reveal">
+          <p class="vs__tag">Conteúdo</p>
+          <p class="vs__old"><span class="sr">Social media convencional: </span>O que você já sabe de cor sobre o nicho, de tanto repetir</p>
+          <p class="vs__new"><span class="sr">Tech Social: </span>Transcrição dos 5 melhores do nicho, garimpando gancho e retenção que ninguém mais viu</p>
         </div>
-        <div class="table__row" role="row">
-          <span role="rowheader">Conteúdo</span>
-          <span role="cell">O que você já sabe de cor sobre o nicho, de tanto repetir</span>
-          <span role="cell">Transcrição dos 5 melhores do nicho, garimpando gancho e retenção que ninguém mais viu</span>
+        <div class="vs__row reveal">
+          <p class="vs__tag">Funil</p>
+          <p class="vs__old"><span class="sr">Social media convencional: </span>Forte no topo, capenga no fundo</p>
+          <p class="vs__new"><span class="sr">Tech Social: </span>Cronograma por dado, cobre o funil inteiro</p>
         </div>
-        <div class="table__row" role="row">
-          <span role="rowheader">Funil</span>
-          <span role="cell">Forte no topo, capenga no fundo</span>
-          <span role="cell">Cronograma por dado, cobre o funil inteiro</span>
-        </div>
-        <div class="table__row" role="row">
-          <span role="rowheader">O cliente te vê como</span>
-          <span role="cell">Aquela pessoa do post, trocável por qualquer um que cobre mais barato</span>
-          <span role="cell">Quem decide a estratégia, e por isso cobra o que quiser</span>
+        <div class="vs__row reveal">
+          <p class="vs__tag">O cliente te vê como</p>
+          <p class="vs__old"><span class="sr">Social media convencional: </span>Aquela pessoa do post, trocável por qualquer um que cobre mais barato</p>
+          <p class="vs__new"><span class="sr">Tech Social: </span>Quem decide a estratégia, e por isso cobra o que quiser</p>
         </div>
       </div>
     </div>
@@ -242,32 +250,32 @@
     </div>
 
     <ol class="mods">
-      <li class="mod reveal">
+      <li class="mod reveal" data-spot>
         <span class="mod__n">01</span>
         <h3>Formação gravada</h3>
         <p>6 trilhas, +100 aulas, no seu ritmo. Assina hoje, assiste hoje.</p>
       </li>
-      <li class="mod reveal">
+      <li class="mod reveal" data-spot>
         <span class="mod__n">02</span>
         <h3>4 provas que viram portfólio</h3>
         <p>Esquece aquele certificado que não prova nada. Aqui você sai com trabalho publicável na mão.</p>
       </li>
-      <li class="mod mod--cert reveal">
+      <li class="mod mod--cert reveal" data-spot>
         <span class="mod__n">03</span>
         <h3>Certificação de Extensão Universitária</h3>
         <p>Emitida pela UNIFATEC, instituição credenciada pelo MEC (consulta pública e-MEC 4093). Isso é raridade no mercado de social media.</p>
       </li>
-      <li class="mod reveal">
+      <li class="mod reveal" data-spot>
         <span class="mod__n">04</span>
         <h3>Pilar Tecnologia</h3>
         <p>O setup de IA que a Koko usa de verdade na operação, virado aula. O jeito Tech Social de decidir, sem enrolação de curso de ferramenta.</p>
       </li>
-      <li class="mod reveal">
+      <li class="mod reveal" data-spot>
         <span class="mod__n">05</span>
         <h3>Metodologia Tech Social</h3>
         <p>Onboarding, ongoing, offboarding. É isso que separa quem fica preso na execução de quem realmente conduz o cliente.</p>
       </li>
-      <li class="mod mod--premium reveal">
+      <li class="mod mod--premium reveal" data-spot>
         <span class="mod__n">06</span>
         <h3>Sala Viva <em>Premium</em></h3>
         <p>Aulas ao vivo, comunidade e networking com quem tá construindo junto. Exclusivo do plano Premium.</p>
@@ -279,9 +287,7 @@
 <!-- ============ 07 CERTIFICAÇÃO ============ -->
 <section class="cert" aria-labelledby="cert-title">
   <div class="wrap cert__inner reveal">
-    <div class="cert__seal" aria-hidden="true">
-      <span>Extensão<br>Universitária</span>
-    </div>
+    <img class="cert__seal" src="assets/img/selo-extensao.png" alt="Selo: curso certificado pela UNIFATEC, e-MEC 4093, extensão universitária" width="300" height="300" loading="lazy">
     <div>
       <h2 id="cert-title" class="title title--sm">Um certificado que entra no currículo e ninguém questiona.</h2>
       <p>Certificação de extensão universitária emitida pela <strong>UNIFATEC</strong>, instituição credenciada pelo MEC. Você confere direto na base pública do e-MEC, código <strong>4093</strong>.</p>
@@ -361,7 +367,7 @@
     <p class="prose offer__intro reveal">A Barbra entrou sem saber por onde começar e hoje fala em R$ 9 mil de lucro fixo por mês. Não foi sorte, foi trocar de lugar. Os dois planos te dão a formação inteira com a certificação de extensão universitária que quase ninguém no nosso mercado te dá. A diferença é quanto você quer levar.</p>
 
     <div class="plans">
-      <article class="plan reveal" aria-labelledby="plano-basico">
+      <article class="plan reveal" data-tilt aria-labelledby="plano-basico">
         <header>
           <h3 id="plano-basico">Básico</h3>
           <p class="plan__sub">a formação, e só ela</p>
@@ -377,7 +383,7 @@
         <p class="plan__fine">Você estuda sozinho, fora da sala. À vista no PIX ou em até 12x no cartão.</p>
       </article>
 
-      <article class="plan plan--premium reveal" aria-labelledby="plano-premium">
+      <article class="plan plan--premium reveal" data-tilt aria-labelledby="plano-premium">
         <span class="plan__badge">★ Mais completo</span>
         <header>
           <h3 id="plano-premium">Premium</h3>
@@ -399,16 +405,26 @@
 
     <!-- FIES Koko -->
     <aside class="fies reveal" aria-labelledby="fies-title">
-      <div class="fies__head">
-        <p class="fies__tag">Programa da Koko</p>
+      <div class="fies__price">
+        <p class="fies__tag"><span class="dot"></span>Pra quem estuda · Programa da Koko</p>
         <h3 id="fies-title">Você é estudante?</h3>
-        <p class="fies__big">FIES Koko · até <b>21x</b> a partir de <b>R$ 99,00</b></p>
+        <div class="fies__deal">
+          <span class="fies__name">FIES Koko</span>
+          <span class="fies__x"><small>até</small>21x</span>
+          <span class="fies__from">a partir de <b>R$ 99,00</b> no cartão</span>
+        </div>
       </div>
-      <div class="fies__body">
-        <p>O FIES Koko é o nosso programa de parcelamento longo: parcela a formação em até 21x a partir de R$ 99,00 no cartão. A mesma formação, com uma parcela que cabe em quem ainda está estudando.</p>
-        <p>Escolha seu plano acima e selecione <strong>FIES Koko</strong> na hora de pagar: ali mesmo você anexa um comprovante de que estuda e marca a declaração de estudante.</p>
-        <p class="fies__legal">É um programa da Koko, criado e bancado por nós, e o nome é nosso. Não é o FIES do governo federal (Lei 10.260/2001, FNDE/MEC), não é financiamento público e não passa por órgão nenhum do governo. <a href="#" data-link="termoFies">Ler o termo</a>.</p>
+      <div class="fies__info">
+        <p class="fies__intro">O FIES Koko é o nosso programa de parcelamento longo. A mesma formação, com uma parcela que cabe em quem ainda está estudando.</p>
+        <ol class="fies__steps">
+          <li><b>01</b><span>Escolha seu plano acima, Básico ou Premium.</span></li>
+          <li><b>02</b><span>Na hora de pagar, selecione <strong>FIES Koko</strong>.</span></li>
+          <li><b>03</b><span>Anexe um comprovante de que estuda e marque a declaração de estudante.</span></li>
+        </ol>
+      </div>
+      <div class="fies__foot">
         <p class="fies__diff"><strong>O que muda de um pro outro?</strong> O Básico te dá a formação, as provas e o certificado. O Premium te dá tudo isso mais a sala inteira: aulas ao vivo e comunidade.</p>
+        <p class="fies__legal">É um programa da Koko, criado e bancado por nós, e o nome é nosso. Não é o FIES do governo federal (Lei 10.260/2001, FNDE/MEC), não é financiamento público e não passa por órgão nenhum do governo. <a href="#" data-link="termoFies">Ler o termo</a>.</p>
       </div>
     </aside>
   </div>
