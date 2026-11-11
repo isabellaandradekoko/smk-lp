@@ -64,6 +64,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .display .px { color: var(--green); }
 .title { font-size: clamp(28px, 3.4vw, 48px); margin-bottom: .8em; max-width: 18ch; }
 .title--xl { font-size: clamp(30px, 4.2vw, 60px); max-width: 16ch; }
+.title--wide { max-width: none; font-size: clamp(24px, 3.2vw, 46px); line-height: 1.12; }
 .title--sm { font-size: clamp(22px, 2.4vw, 32px); max-width: 22ch; margin-bottom: .5em; }
 
 .eyebrow, .kicker {
@@ -544,6 +545,7 @@ mark { background: none; color: var(--green); font-weight: 600; }
   .koko { gap: 18px; padding: 0; }
   .crt__icon { width: 150px; }
   .crt__status { font-size: 11px; }
+  .title--wide br { display: none; }
   .split-head .title { white-space: normal; font-size: clamp(30px, 8vw, 44px); }
   .split-head > .prose { grid-column: 1; grid-row: 3; margin-top: 24px; }
   .pains, .cat, .split-head, .teacher, .faq, .plans, .fies, .fies__foot, .chats, .case, .close__cols, .shift__inner { grid-template-columns: 1fr; }
