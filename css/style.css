@@ -391,16 +391,18 @@ mark { background: none; color: var(--green); font-weight: 600; }
 @keyframes hop { 40% { transform: translateY(-6px) scale(1.1); } }
 
 .case {
-  margin: 0; max-width: 1000px; border-radius: 22px; padding: clamp(26px, 4vw, 44px);
+  margin: 0; max-width: 1000px; border-radius: 22px; padding: clamp(30px, 4.5vw, 56px);
   background: var(--cream); color: var(--ink);
-  display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px 40px; align-items: end;
+  display: flex; flex-direction: column; gap: 32px;
 }
-.case__quote { margin: 0; font-family: var(--f-display); font-weight: 700; font-size: clamp(17px, 1.7vw, 23px); line-height: 1.35; }
-.case__who { grid-column: 1; font-size: 14px; font-weight: 600; }
-.case__nums { grid-column: 2; grid-row: 1 / span 2; display: grid; gap: 8px; }
-.case__nums li { background: var(--ink); color: var(--cream); border-radius: 12px; padding: 12px 16px; font-size: 14px; transition: transform .3s var(--ease); }
-.case__nums li:hover { transform: translateX(-6px); }
-.case__nums b { display: block; font-family: var(--f-display); color: var(--green); font-size: 19px; }
+.case__quote { order: 1; margin: 0; font-family: var(--f-display); font-weight: 700; text-transform: uppercase; font-size: clamp(20px, 2.3vw, 32px); line-height: 1.2; max-width: 30ch; text-wrap: balance; }
+.case__nums { order: 2; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+.case__nums li { padding-top: 16px; font-size: 14px; color: #5c5c56; position: relative; }
+.case__nums li::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: radial-gradient(circle, var(--ink) 1.4px, transparent 1.8px) 0 50% / 8px 4px repeat-x; }
+.case__nums b { display: block; font-family: var(--f-display); color: var(--ink); font-size: clamp(20px, 2vw, 26px); text-transform: uppercase; margin-bottom: 4px; }
+.case__nums li:first-child b { color: var(--purple); }
+.case__who { order: 3; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; }
+.case__who::before { content: 'B'; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--green); font-family: var(--f-display); font-size: 13px; }
 
 /* ---------- oferta ---------- */
 .offer__intro { margin-bottom: 56px; }
@@ -546,7 +548,7 @@ mark { background: none; color: var(--green); font-weight: 600; }
   .vs__head { display: none; }
   .vs__row { grid-template-columns: 1fr; }
   .faq__head { position: static; }
-  .case__who, .case__nums { grid-column: auto; grid-row: auto; }
+  .case__nums { grid-template-columns: 1fr; gap: 16px; }
   .teacher__img { aspect-ratio: 4 / 4.4; }
   .close__cols p, .close__cols p + p { padding: 22px 0 0; border-left: 0; }
   .close__cols p + p { margin-top: 22px; border-top: 1px dashed var(--green); }
