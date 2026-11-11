@@ -351,7 +351,11 @@ mark { background: none; color: var(--green); font-weight: 600; }
 /* ---------- certificação ---------- */
 .cert { background: var(--purple); color: #fff; padding: clamp(56px, 7vw, 88px) 0; }
 .cert__inner { display: grid; grid-template-columns: auto 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
-.cert__inner p { max-width: 60ch; font-size: 17px; margin: 0; }
+.cert__copy { width: fit-content; max-width: 100%; }
+.cert__copy .title { font-size: clamp(28px, 3.3vw, 46px); line-height: 1.08; max-width: none; white-space: nowrap; margin-bottom: 22px; }
+/* o texto acompanha a largura do título, sem empurrar a caixa */
+.cert__copy p { width: 0; min-width: 100%; font-size: 17px; margin: 0; }
+.cert__seal { align-self: start; }
 .cert__seal { width: 160px; height: 160px; border-radius: 50%; filter: drop-shadow(0 18px 30px rgba(40, 0, 70, .45)); transition: transform .5s var(--ease); }
 .cert__inner:hover .cert__seal { transform: rotate(-8deg) scale(1.06); }
 .js .cert .reveal .cert__seal { transform: scale(.6) rotate(-25deg); opacity: 0; transition: transform .9s var(--ease) .15s, opacity .6s .15s; }
@@ -398,7 +402,7 @@ mark { background: none; color: var(--green); font-weight: 600; }
   background: var(--cream); color: var(--ink);
   display: flex; flex-direction: column; gap: 32px;
 }
-.case__quote { order: 1; margin: 0; font-family: var(--f-display); font-weight: 700; text-transform: uppercase; font-size: clamp(20px, 2.3vw, 32px); line-height: 1.2; max-width: 30ch; text-wrap: balance; }
+.case__quote { order: 1; margin: 0; font-family: var(--f-display); font-weight: 700; text-transform: uppercase; font-size: clamp(20px, 2.6vw, 36px); line-height: 1.2; text-wrap: balance; }
 .case__nums { order: 2; display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .case__nums li { padding-top: 16px; font-size: 14px; color: #5c5c56; position: relative; }
 .case__nums li::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: radial-gradient(circle, var(--ink) 1.4px, transparent 1.8px) 0 50% / 8px 4px repeat-x; }
@@ -568,6 +572,8 @@ mark { background: none; color: var(--green); font-weight: 600; }
   .evo li { grid-template-columns: 1fr 24px 1.2fr; font-size: 15px; }
   .cert__inner { grid-template-columns: 1fr; }
   .cert__seal { width: 130px; height: 130px; }
+  .cert__copy .title { white-space: normal; }
+  .cert__copy .title br { display: none; }
   .topbar__logo img { width: 165px; }
 }
 
