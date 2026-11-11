@@ -22,11 +22,12 @@
   <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=array@400,600,700&display=swap">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 
-  <!-- Variante do hero (teste A/B): ?v=b mostra a versão B (entrega). Padrão = A (mercado). -->
+  <!-- Variante do hero (teste A/B): ?v=b ou #versao-b mostra a versão B (entrega). Padrão = A (mercado). -->
   <script>
     (function () {
       var v = new URLSearchParams(location.search).get('v');
-      document.documentElement.dataset.variant = (v === 'b' || v === 'B') ? 'b' : 'a';
+      var isB = v === 'b' || v === 'B' || location.hash === '#versao-b';
+      document.documentElement.dataset.variant = isB ? 'b' : 'a';
       document.documentElement.classList.add('js');
     })();
   </script>

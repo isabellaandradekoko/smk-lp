@@ -10,3 +10,6 @@ Visual/
 /*.jpg
 /*.JPG
 /*.jpeg
+
+# Pacote da prévia (artifact), gerado a partir do site
+.preview/
