@@ -42,17 +42,15 @@ O resto da página é igual nas duas.
 ## Identidade visual
 
 - Cores: verde `#B4F35E`, roxo `#B04BE8`, creme `#F4F1E8`, preto `#1B1B1B`
-- Fontes: **Array** (Fontshare, gratuita) para títulos em bolinhas, **Inter** para texto, **Archivo** condensada no lugar da Acumin (Adobe Fonts)
-- Motions: boot do ícone na tela CRT com piscada, campo de bolinhas que reage ao cursor no hero, ticker de números, reveal no scroll, "decodificação" das palavras na seção da categoria e contadores. Tudo respeita `prefers-reduced-motion`.
+- Fontes: **Array** (Fontshare, gratuita) para títulos e destaques, **Inter** para todo o resto
+- Motions: boot da kokinha no hero (bolinha por bolinha, piscada, bolinhas desviando do cursor), campo de bolinhas que reage ao cursor, ticker de números, painel posts × resultado, morph celular → monitor no comparativo, fotos do Hector alternando, kokinha atravessando a linha no fecho, menu com pílula que segue a seção, reveal no scroll e contadores. Tudo respeita `prefers-reduced-motion`.
 
 ## Pendências
 
 - [ ] Remover `<meta name="robots" content="noindex, nofollow">` do `index.html` antes de publicar no domínio final
-
 - [ ] Links de checkout, WhatsApp e termo do FIES (`js/config.js`)
 - [ ] Pixel / GTM / tracking
-- [ ] Selo oficial de extensão ("SELO PADRÃO - EXTENSÃO.png", da Usina Educação) no lugar do selo provisório da seção de certificação
-- [ ] Foto do Hector na seção "Quem ensina" (hoje está a imagem do computador com stickers)
 - [ ] Mockups das telas da plataforma no bloco "O Programa" (pedido da Jéssica)
 - [ ] Confirmar autorização de uso de nome e depoimento dos alunos (Marina Silenciato, Paula Castro, Mariana Cardoso, Rodrigo Buson)
 - [ ] Parcelamento do Premium (R$ 1.997) em 12x: valor da parcela
+- [ ] Trocar o selo da UNIFATEC pelo PNG original em alta (hoje é recorte de print)
