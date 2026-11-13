@@ -228,7 +228,7 @@ mark { background: none; color: var(--green); font-weight: 600; }
 .sec--dark > .wrap { position: relative; }
 
 /* ---------- batalha real ---------- */
-.pains { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 24px 0 72px; }
+.pains { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin: 24px 0 56px; }
 .pain {
   background: #fff; border-radius: var(--r); padding: 26px 24px 20px;
   border: 1px solid var(--cream-2);
@@ -315,6 +315,11 @@ mark { background: none; color: var(--green); font-weight: 600; }
 .vs__row:hover .vs__old { opacity: .45; transform: scale(.98); }
 .vs__row:hover .vs__new { transform: translateX(-4px); box-shadow: 6px 6px 0 var(--green); }
 
+.verdict { display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(32px, 6vw, 96px); align-items: center; padding-top: 48px; border-top: 2px dotted rgba(27,27,27,.25); }
+.verdict p { margin: 0; }
+.verdict__lead { font-size: 17px; line-height: 1.65; }
+.verdict__lead strong { font-weight: 600; }
+.verdict__punch { font-size: clamp(20px, 1.9vw, 26px); line-height: 1.4; font-weight: 500; padding-left: 24px; border-left: 3px solid var(--purple); }
 .note { margin: 64px 0 0; font-size: 18px; max-width: 58ch; padding-left: 22px; border-left: 3px solid var(--purple); }
 
 /* ---------- programa: grade limpa ---------- */
@@ -556,7 +561,7 @@ mark { background: none; color: var(--green); font-weight: 600; }
   .title--wide br { display: none; }
   .split-head .title { white-space: normal; font-size: clamp(30px, 8vw, 44px); }
   .split-head > .prose { grid-column: 1; grid-row: 3; margin-top: 24px; }
-  .pains, .cat, .split-head, .teacher, .faq, .plans, .fies, .fies__foot, .chats, .case, .close__cols, .shift__inner { grid-template-columns: 1fr; }
+  .verdict, .pains, .cat, .split-head, .teacher, .faq, .plans, .fies, .fies__foot, .chats, .case, .close__cols, .shift__inner { grid-template-columns: 1fr; }
   .panel { justify-self: stretch; max-width: none; }
   .close__top { grid-template-columns: 1fr; }
   .cross { justify-self: center; max-width: 320px; margin-bottom: 36px; }
