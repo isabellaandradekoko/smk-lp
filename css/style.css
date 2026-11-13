@@ -349,14 +349,14 @@ mark { background: none; color: var(--green); font-weight: 600; }
 .mod--cert h3::after { content: 'MEC'; font-size: 10px; font-weight: 700; letter-spacing: .1em; vertical-align: middle; margin-left: 8px; padding: 4px 8px; border-radius: 999px; background: var(--green); color: var(--ink); }
 
 /* ---------- certificação ---------- */
-.cert { background: var(--purple); color: #fff; padding: clamp(56px, 7vw, 88px) 0; }
-.cert__inner { display: grid; grid-template-columns: auto 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+.cert { background: var(--purple); color: #fff; padding: clamp(44px, 5vw, 64px) 0; }
+.cert__inner { display: grid; grid-template-columns: 140px minmax(0, 1fr); gap: clamp(28px, 5vw, 64px); align-items: center; }
 .cert__copy { width: fit-content; max-width: 100%; }
-.cert__copy .title { font-size: clamp(28px, 3.3vw, 46px); line-height: 1.08; max-width: none; white-space: nowrap; margin-bottom: 22px; }
+.cert__copy .title { font-size: clamp(24px, 2.4vw, 35px); line-height: 1.1; max-width: none; white-space: nowrap; margin-bottom: 16px; }
 /* o texto acompanha a largura do título, sem empurrar a caixa */
 .cert__copy p { width: 0; min-width: 100%; font-size: 17px; margin: 0; }
-.cert__seal { align-self: start; }
-.cert__seal { width: 160px; height: 160px; border-radius: 50%; filter: drop-shadow(0 18px 30px rgba(40, 0, 70, .45)); transition: transform .5s var(--ease); }
+.cert__seal { align-self: center; }
+.cert__seal { width: 140px; height: 140px; min-width: 140px; object-fit: contain; border-radius: 50%; filter: drop-shadow(0 18px 30px rgba(40, 0, 70, .45)); transition: transform .5s var(--ease); }
 .cert__inner:hover .cert__seal { transform: rotate(-8deg) scale(1.06); }
 .js .cert .reveal .cert__seal { transform: scale(.6) rotate(-25deg); opacity: 0; transition: transform .9s var(--ease) .15s, opacity .6s .15s; }
 .js .cert .reveal.is-in .cert__seal { transform: none; opacity: 1; }
