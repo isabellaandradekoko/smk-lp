@@ -494,15 +494,15 @@
   var heroIcon = document.querySelector('.crt__icon svg');
   if (cross && heroIcon) {
     var csvg = cross.querySelector('.cross__svg');
-    var NSC = 'http://www.w3.org/2000/svg', CG = 16, COLS = 27, ROWS = 17, LINE = 13;
-    csvg.setAttribute('viewBox', '0 0 ' + COLS * CG + ' ' + ROWS * CG);
+    var NSC = 'http://www.w3.org/2000/svg', CG = 16, CCOLS = 27, CROWS = 17, LINE = 13;
+    csvg.setAttribute('viewBox', '0 0 ' + CCOLS * CG + ' ' + CROWS * CG);
     var mk = function (x, y, r, cls) {
       var c = document.createElementNS(NSC, 'circle');
       c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', r); c.setAttribute('class', cls);
       csvg.appendChild(c); return c;
     };
     // campo de bolinhas: cinza à esquerda, verde à direita, linha pontilhada no meio
-    for (var ry = 0; ry < ROWS; ry++) for (var rx = 0; rx < COLS; rx++) {
+    for (var ry = 0; ry < CROWS; ry++) for (var rx = 0; rx < CCOLS; rx++) {
       var cx0 = rx * CG + CG / 2, cy0 = ry * CG + CG / 2;
       if (rx === LINE) { if (ry % 2 === 0) mk(cx0, cy0, 2.6, 'line'); }
       else mk(cx0, cy0, 2, rx < LINE ? 'f-old' : 'f-new');
@@ -599,4 +599,12 @@
     window.addEventListener('resize', update);
     update();
   })();
+
+  /* ---------- FAQ: abrir uma pergunta fecha a anterior ---------- */
+  var qas = [].slice.call(document.querySelectorAll('details.qa'));
+  qas.forEach(function (d) {
+    d.addEventListener('toggle', function () {
+      if (d.open) qas.forEach(function (o) { if (o !== d) o.open = false; });
+    });
+  });
 })();
