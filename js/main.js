@@ -32,6 +32,7 @@
   var mcta = document.querySelector('.mcta');
   var hero = document.querySelector('.hero');
   var oferta = document.getElementById('oferta');
+  var closeSec = document.querySelector('.close');
   var lastY = window.scrollY;
 
   function onScroll() {
@@ -42,7 +43,8 @@
     if (y < lastY - 2 || y < heroEnd) topbar.classList.remove('is-hidden');
 
     var r = oferta.getBoundingClientRect();
-    var inOffer = r.top < window.innerHeight && r.bottom > 0;
+    var c = closeSec ? closeSec.getBoundingClientRect() : { top: 1e9 };
+    var inOffer = (r.top < window.innerHeight && r.bottom > 0) || c.top < window.innerHeight * .6;
     mcta.classList.toggle('is-on', y > heroEnd && !inOffer);
     lastY = y;
   }

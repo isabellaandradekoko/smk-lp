@@ -581,6 +581,16 @@ mark { background: none; color: var(--green); font-weight: 600; }
   .cert__copy .title { white-space: normal; }
   .cert__copy .title br { display: none; }
   .topbar__logo img { width: 165px; }
+  /* respiro no celular: menos vazio entre blocos */
+  :root { --sec: 72px; }
+  .pains { margin-bottom: 48px; }
+  .cat { margin-bottom: 56px; gap: 28px; }
+  .split-head { margin-bottom: 48px; }
+  .stats { margin-top: 56px; gap: 22px; }
+  .teacher, .shift__inner, .faq, .close__top { gap: 32px; }
+  .case { padding: 28px 22px; }
+  .plan .btn { font-size: 13px; letter-spacing: .02em; padding-left: 18px; padding-right: 18px; white-space: nowrap; }
+  .chats { gap: 14px; }
 }
 
 /* ---------- movimento reduzido ---------- */
