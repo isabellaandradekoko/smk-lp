@@ -20,6 +20,10 @@ python3 -m http.server 8000
 # abrir http://localhost:8000
 ```
 
+## Cache
+
+O `index.html` chama `css/style.css?v=...` e `js/*.js?v=...`. Ao alterar CSS ou JS, troque esse número pra quem já abriu a página receber a versão nova na hora.
+
 ## Configurar links
 
 Edite `js/config.js`:
