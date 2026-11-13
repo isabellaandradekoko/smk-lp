@@ -385,7 +385,22 @@ mark { background: none; color: var(--green); font-weight: 600; }
 .stats li > span { font-size: 14px; color: #5c5c56; display: block; line-height: 1.45; }
 
 /* ---------- prova social ---------- */
-.chats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px 22px; margin: 24px 0 40px; max-width: 1000px; }
+.album { margin-top: 56px; }
+.album__head { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 20px; }
+.album__label { margin: 0; font-size: 14px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--cream); display: flex; gap: 16px; align-items: baseline; }
+.album__count { font-family: var(--f-display); color: var(--muted); letter-spacing: .04em; }
+.album__count b { color: var(--green); font-weight: 700; }
+.album__nav { display: flex; gap: 10px; }
+.album__btn { width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--ink-3); background: var(--ink-2); color: var(--cream); font-size: 18px; cursor: pointer; transition: background .25s, color .25s, border-color .25s, opacity .25s; }
+.album__btn:hover:not(:disabled) { background: var(--green); color: var(--ink); border-color: var(--green); }
+.album__btn:disabled { opacity: .3; cursor: default; }
+.chats { display: flex; gap: 22px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; scrollbar-width: none; padding-bottom: 6px; outline: none; cursor: grab; }
+.chats::-webkit-scrollbar { display: none; }
+.chats.is-drag { cursor: grabbing; scroll-snap-type: none; scroll-behavior: auto; }
+.chats .chat { flex: 0 0 calc((100% - 22px) / 2.15); scroll-snap-align: start; user-select: none; }
+.album__dots { display: flex; gap: 8px; margin-top: 22px; }
+.album__dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--ink-3); transition: background .3s, width .3s; }
+.album__dots i.is-on { background: var(--green); width: 26px; border-radius: 6px; }
 .chat {
   margin: 0; padding: 20px 22px; border-radius: 18px 18px 18px 6px;
   background: var(--ink-2); border: 1px solid var(--ink-3);
@@ -405,7 +420,7 @@ mark { background: none; color: var(--green); font-weight: 600; }
 @keyframes hop { 40% { transform: translateY(-6px) scale(1.1); } }
 
 .case {
-  margin: 0; max-width: 1000px; border-radius: 22px; padding: clamp(30px, 4.5vw, 56px);
+  margin: 24px 0 0; max-width: none; border-radius: 22px; padding: clamp(30px, 4.5vw, 56px);
   background: var(--cream); color: var(--ink);
   display: flex; flex-direction: column; gap: 32px;
 }
@@ -568,7 +583,7 @@ mark { background: none; color: var(--green); font-weight: 600; }
   .title--wide br { display: none; }
   .split-head .title { white-space: normal; font-size: clamp(30px, 8vw, 44px); }
   .split-head > .prose { grid-column: 1; grid-row: 3; margin-top: 24px; }
-  .verdict, .pains, .cat, .split-head, .teacher, .faq, .plans, .fies, .fies__foot, .chats, .case, .close__cols, .shift__inner { grid-template-columns: 1fr; }
+  .verdict, .pains, .cat, .split-head, .teacher, .faq, .plans, .fies, .fies__foot, .case, .close__cols, .shift__inner { grid-template-columns: 1fr; }
   .panel { justify-self: stretch; max-width: none; }
   .close__top { grid-template-columns: 1fr; }
   .cross { justify-self: center; max-width: 320px; margin-bottom: 36px; }
@@ -604,6 +619,8 @@ mark { background: none; color: var(--green); font-weight: 600; }
   .case { padding: 28px 22px; }
   .plan .btn { font-size: 13px; letter-spacing: .02em; padding-left: 18px; padding-right: 18px; white-space: nowrap; }
   .chats { gap: 14px; }
+  .chats .chat { flex-basis: 86%; }
+  .album__btn { width: 40px; height: 40px; }
 }
 
 /* ---------- movimento reduzido ---------- */

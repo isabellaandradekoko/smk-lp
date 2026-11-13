@@ -562,4 +562,41 @@
       }, { threshold: 0.3 }).observe(cross);
     }
   }
+
+  /* ---------- álbum de depoimentos ---------- */
+  (function () {
+    var album = document.querySelector('.album'); if (!album) return;
+    var track = album.querySelector('.chats');
+    var cards = [].slice.call(track.children);
+    var dots = [].slice.call(album.querySelectorAll('.album__dots i'));
+    var count = album.querySelector('.album__count b');
+    var prev = album.querySelector('[data-dir="-1"]'), next = album.querySelector('[data-dir="1"]');
+    function step() { return cards[1] ? cards[1].offsetLeft - cards[0].offsetLeft : track.clientWidth; }
+    function update() {
+      var i = Math.round(track.scrollLeft / step());
+      var end = track.scrollLeft + track.clientWidth >= track.scrollWidth - 4;
+      if (end) i = cards.length - 1;
+      dots.forEach(function (d, k) { d.classList.toggle('is-on', k === i); });
+      count.textContent = ('0' + (i + 1)).slice(-2);
+      prev.disabled = track.scrollLeft < 4; next.disabled = end;
+    }
+    [prev, next].forEach(function (b) {
+      b.addEventListener('click', function () { track.scrollBy({ left: step() * +b.dataset.dir }); });
+    });
+    track.addEventListener('scroll', function () { window.requestAnimationFrame(update); }, { passive: true });
+    track.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight') { track.scrollBy({ left: step() }); e.preventDefault(); }
+      if (e.key === 'ArrowLeft') { track.scrollBy({ left: -step() }); e.preventDefault(); }
+    });
+    /* arrastar com o mouse no computador */
+    var down = false, x0 = 0, s0 = 0;
+    track.addEventListener('pointerdown', function (e) { if (e.pointerType !== 'mouse') return; down = true; x0 = e.clientX; s0 = track.scrollLeft; track.classList.add('is-drag'); });
+    window.addEventListener('pointermove', function (e) { if (down) track.scrollLeft = s0 - (e.clientX - x0); });
+    window.addEventListener('pointerup', function () {
+      if (!down) return; down = false; track.classList.remove('is-drag');
+      track.scrollTo({ left: Math.round(track.scrollLeft / step()) * step() });
+    });
+    window.addEventListener('resize', update);
+    update();
+  })();
 })();
