@@ -27,6 +27,20 @@
     else { a.href = a.dataset.link === 'whatsapp' ? '#faq' : '#oferta'; }
   });
 
+
+  /* ---------- sem palavra sozinha na última linha ----------
+     junta as duas últimas palavras de cada texto com espaço inquebrável */
+  document.querySelectorAll('h1, h2, h3, p, li, blockquote, figcaption, summary').forEach(function (el) {
+    var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT), n, last = null;
+    while ((n = w.nextNode())) if (/\S/.test(n.nodeValue)) last = n;
+    if (!last) return;
+    var v = last.nodeValue.replace(/\s+$/, ''), i = v.lastIndexOf(' ');
+    if (i > 0) { last.nodeValue = v.slice(0, i) + '\u00a0' + v.slice(i + 1) + last.nodeValue.slice(v.length); return; }
+    /* a última palavra está sozinha num elemento (ex.: <span>ainda.</span>): prende ao texto anterior */
+    var prev = last.parentNode !== el ? last.parentNode.previousSibling : null;
+    if (prev && prev.nodeType === 3) prev.nodeValue = prev.nodeValue.replace(/ $/, '\u00a0');
+  });
+
   /* ---------- topbar + CTA mobile ---------- */
   var topbar = document.querySelector('.topbar');
   var mcta = document.querySelector('.mcta');

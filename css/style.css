@@ -42,6 +42,8 @@ img { max-width: 100%; height: auto; display: block; }
 a { color: inherit; }
 p { margin: 0 0 1em; }
 h1, h2, h3 { margin: 0; font-weight: 700; }
+/* nunca deixar uma palavra sozinha na última linha */
+p, li, blockquote, figcaption, summary, dd, .qa div { text-wrap: pretty; }
 ul, ol { margin: 0; padding: 0; list-style: none; }
 ::selection { background: var(--green); color: var(--ink); }
 
